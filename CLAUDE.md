@@ -2,9 +2,9 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## What is debris?
+## What is debri?
 
-Debris is a TypeScript DynamoDB single-table design library, supporting multi-key primary keys and secondary indexes. It provides a type-safe API for defining entities with Zod schemas, composing them into a table with GSI definitions, and performing CRUD, query, batch, and transactional operations through a generated client.
+Debri is a TypeScript DynamoDB single-table design library, supporting multi-key primary keys and secondary indexes. It provides a type-safe API for defining entities with Zod schemas, composing them into a table with GSI definitions, and performing CRUD, query, batch, and transactional operations through a generated client.
 
 ## Commands
 

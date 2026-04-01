@@ -1,4 +1,4 @@
-export const OP_BRAND = Symbol.for("debris.operation");
+export const OP_BRAND = Symbol.for("debri.operation");
 
 export const op = {
 	add: (value: number) => ({ [OP_BRAND]: "add" as const, value }),

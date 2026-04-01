@@ -1,8 +1,8 @@
-# debris
+# debri
 
 Type-safe DynamoDB single-table design with native multi-attribute GSI keys.
 
-## Why debris?
+## Why debri?
 
 Most DynamoDB single-table libraries were designed before DynamoDB added multi-attribute GSI keys. They usually flatten composite keys into opaque strings like `STATUS#2025-11-04#100`, which means:
 
@@ -10,7 +10,7 @@ Most DynamoDB single-table libraries were designed before DynamoDB added multi-a
 - numeric ordering becomes string ordering unless you hand-normalize values
 - library metadata often leaks into every item
 
-`debris` keeps indexed attributes as real DynamoDB attributes. `price` stays a number. `status` stays a string. Your table shape stays readable.
+`debri` keeps indexed attributes as real DynamoDB attributes. `price` stays a number. `status` stays a string. Your table shape stays readable.
 
 ## Requirements
 
@@ -24,7 +24,7 @@ Most DynamoDB single-table libraries were designed before DynamoDB added multi-a
 ## Install
 
 ```bash
-npm install debris @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb zod
+npm install debri @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb zod
 ```
 
 ## Examples
@@ -50,7 +50,7 @@ import {
 	UpdateTimeToLiveCommand,
 } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import { entity, table } from "debris";
+import { entity, table } from "debri";
 import { z } from "zod";
 
 const Listing = entity({
@@ -222,7 +222,7 @@ const updated = await db.update("LISTING", "lst-001", {
 ### Atomic update helpers
 
 ```ts
-import { op } from "debris";
+import { op } from "debri";
 
 await db.update("LISTING", "lst-001", {
 	viewCount: op.add(1),
@@ -402,7 +402,7 @@ Important:
 - filter branches must not contain `undefined` values
 - `null` is allowed when you intentionally want to match a DynamoDB null value
 - build filters conditionally instead of passing `undefined`
-- debris throws a clear error before calling DynamoDB if a filter value is `undefined`
+- debri throws a clear error before calling DynamoDB if a filter value is `undefined`
 
 Good:
 
