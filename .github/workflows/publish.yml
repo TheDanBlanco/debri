@@ -1,0 +1,70 @@
+name: Publish
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  validate:
+    name: Validate (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    
+    # We must run DynamoDB Local as a service so the tests can hit it
+    services:
+      dynamodb-local:
+        image: amazon/dynamodb-local:latest
+        ports:
+          - 8000:8000
+    
+    strategy:
+      matrix:
+        node-version: [24.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (Biome)
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Typecheck examples
+        run: npm run examples:typecheck
+
+      - name: Build
+        run: npm run build
+
+      - name: Test (Vitest)
+        run: npm test
+
+  tag-release:
+    name: Tag & Release
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed to push tags
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: '0' # Need full history for versioning
+
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: patch # defaults to patch if no conventional commits are found
+          release_branches: main
