@@ -6,7 +6,7 @@
   "author": "Daniel Blanco",
   "repository": {
     "type": "git",
-    "url": "https://github.com/TheDanBlanco/debri.git"
+    "url": "git+https://github.com/TheDanBlanco/debri.git"
   },
   "homepage": "https://github.com/TheDanBlanco/debri#readme",
   "bugs": {
